@@ -9,7 +9,7 @@ class App extends Component {
   }
   componentDidMount() {
     console.log("mounted");
-    fetch("http://hn.algolia.com/api/v1/items/1")
+    fetch("http://hn.algolia.com/api/v1/search?tags=front_page")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
