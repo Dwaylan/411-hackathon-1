@@ -8,9 +8,8 @@ class NewsItem extends Component {
     render() {
         return (
             <div>
-                <h1>{this.props.title}</h1>
-                <p>{this.props.author}</p>
-                <p>{this.props.date}</p>
+                <a href={this.props.url}>{this.props.title} ({this.props.url})</a>
+                <p>{this.props.points} points | {this.props.author} | {this.props.date} | {this.props.commentNum} comments</p>
             </div>
         )
     }
