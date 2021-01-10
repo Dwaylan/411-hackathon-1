@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import "./NewsItem.css";
-
 class NewsItem extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <div className="frontPage">
+      <div class="container">
         <a className="headers" href={this.props.url}>
           {this.props.title} ({this.props.url})
         </a>
