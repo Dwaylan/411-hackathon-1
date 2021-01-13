@@ -4,28 +4,28 @@ import "./SearchForm.css";
 class SearchForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''}
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  //https://reactjs.org/docs/lifting-state-up.html
    handleChange(e) {
-    this.setState({value:e.target.value})
+    this.props.newsItemChange(e.target.value)
   }
 
   handleSubmit(e) {
+    console.log(this.newsItem)
     console.log('Story search submitted ' + this.state.value)
     e.preventDefault()
     fetch(`http://hn.algolia.com/api/v1/search?query=${this.state.value}&tags=story`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
+      console.log("this is the data ", data)
       this.setState({ newsItem: data.hits })
+      console.log('update newsItems ', this.newsItem)
     })
-    .catch((error) => {
-      console.log(error, "catch the hoop")
-    })
+    this.setState({value:''})
   }
 
 

@@ -28,10 +28,11 @@ class App extends Component {
 
 
   render() {
+
     return (
       <div className="App">
         <Stylesheet />
-        <SearchForm />
+        <SearchForm newsItemChange={this.newFetchedData}/>
         <ul>
           {this.state.newsItem &&
             this.state.newsItem.map((item) => {
