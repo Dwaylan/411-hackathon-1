@@ -14,13 +14,18 @@ class App extends Component {
   // https://stackoverflow.com/questions/52882903/componentdidmount-multiple-fetch-calls-best-practice
   componentDidMount() {
     console.log("mounted");
-    fetch("http://hn.algolia.com/api/v1/search?tags=front_page")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        this.setState({ newsItem: data.hits });
-      });
+    this.fetchData();
   }
+
+  fetchData = () => {
+    fetch("http://hn.algolia.com/api/v1/search?tags=front_page")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+      this.setState({ newsItem: data.hits })
+    })
+  }
+
 
   render() {
     return (
