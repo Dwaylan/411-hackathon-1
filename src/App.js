@@ -7,8 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newsItem: null,
-      searchedItems: null,
+      newsItem: [],
+      searchedItems: [],
     };
   }
   // use the below link to test how making multiple fetch requests depending on the search requests.
@@ -18,29 +18,22 @@ class App extends Component {
     console.log("mounted");
     this.fetchData();
   }
-  
-  componentWillUpdate() {
-    console.log('component will update')
-  }
-
-  componentDidUpdate() {
-    console.log('component did update', this.state.newsItem)
-  }
 
   fetchData = () => {
     fetch("http://hn.algolia.com/api/v1/search?tags=front_page")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
+      console.log("this is front page ", data)
       this.setState({ newsItem: data.hits })
     })
   }
 
 
- searchedItems(items) {
-  this.setState({ searchedItems: items })
-  console.log()
- }
+  searchedItems = (items) => {
+    // console.log("items", items);
+    // console.log("this", this);
+    this.setState({ newsItem: items });
+  };
   
 
   render() {    
@@ -56,6 +49,7 @@ class App extends Component {
             this.state.newsItem.map((item) => {
               return (
                 <NewsItem
+                  key={item.objectID}
                   points={item.points}
                   commentNum={item.num_comments}
                   url={item.url}
