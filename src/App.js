@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NewsItem from "./components/itemComponents/NewsItem";
-import SearchForm from "./components/SearchFormComponent/SearchForm";
+import SearchForm from "./components/searchFormComponent/SearchForm";
 import Stylesheet from "./components/Stylesheet";
 import "./App.css";
 class App extends Component {
@@ -8,13 +8,23 @@ class App extends Component {
     super(props);
     this.state = {
       newsItem: null,
+      searchedItems: null,
     };
   }
   // use the below link to test how making multiple fetch requests depending on the search requests.
   // https://stackoverflow.com/questions/52882903/componentdidmount-multiple-fetch-calls-best-practice
+  // which i have moved to a component of its own.
   componentDidMount() {
     console.log("mounted");
     this.fetchData();
+  }
+  
+  componentWillUpdate() {
+    console.log('component will update')
+  }
+
+  componentDidUpdate() {
+    console.log('component did update', this.state.newsItem)
   }
 
   fetchData = () => {
@@ -27,12 +37,20 @@ class App extends Component {
   }
 
 
-  render() {
+ searchedItems(items) {
+  this.setState({ searchedItems: items })
+  console.log()
+ }
+  
+
+  render() {    
 
     return (
       <div className="App">
         <Stylesheet />
-        <SearchForm newsItemChange={this.newFetchedData}/>
+        <SearchForm searchedItems={this.searchedItems} />
+        {/* so here im thinking of having a conditionally render decide if the form has been submitted determine if there 
+        is a submition from the form or when the button is clicked? */}
         <ul>
           {this.state.newsItem &&
             this.state.newsItem.map((item) => {
