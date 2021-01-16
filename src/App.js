@@ -30,9 +30,8 @@ class App extends Component {
 
 
   searchedItems = (items) => {
-    // console.log("items", items);
-    // console.log("this", this);
     this.setState({ newsItem: items });
+    console.log(this.state.newsItem)
   };
   
 
@@ -42,8 +41,6 @@ class App extends Component {
       <div className="App">
         <Stylesheet />
         <SearchForm searchedItems={this.searchedItems} />
-        {/* so here im thinking of having a conditionally render decide if the form has been submitted determine if there 
-        is a submition from the form or when the button is clicked? */}
         <ul>
           {this.state.newsItem &&
             this.state.newsItem.map((item) => {
@@ -56,6 +53,8 @@ class App extends Component {
                   date={item.created_at}
                   author={item.author}
                   title={item.title}
+                  time={item.created_at_i}
+                  // author={item.story_title}
                 />
               );
             })}
