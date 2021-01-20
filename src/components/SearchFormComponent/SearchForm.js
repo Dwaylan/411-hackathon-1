@@ -7,10 +7,14 @@ class SearchForm extends Component {
     super(props);
     this.state = {
       value: '',
+      selectValue: 'story',
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+    
   }
 
  
@@ -20,23 +24,41 @@ class SearchForm extends Component {
     this.setState({ value: e.target.value })
   }
 
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   // console.log(e);
-  //   console.log("Story search submitted " + this.state.value);
-  //   fetch(
-  //     `http://hn.algolia.com/api/v1/search?query=${this.state.value}&tags=story`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data2) => {
-  //       const { searchedItems } = this.props;
-  //       searchedItems(data2.hits);
-  //     });
-  //}
+  handleSelectChange(e) {
+    this.setState({ selectValue: e.target.value })
+    console.log("etargetvalue for select change", e.target.value)
+  }
+
+  handleSubmit(e) {
+   
+    if(this.state.selectValue === 'story') {
+      console.log("Story search submitted " + this.state.value);
+      fetch(
+        `http://hn.algolia.com/api/v1/search?query=${this.state.value}&tags=story`
+      )
+        .then((res) => res.json())
+        .then((data2) => {
+          const { searchedItems } = this.props;
+          searchedItems(data2.hits);
+        });
+    } else{
+      console.log("Story search submitted " + this.state.value);
+    fetch(
+      `http://hn.algolia.com/api/v1/search?query=author_:${this.state.value}`
+    )
+      .then((res) => res.json())
+      .then((data2) => {
+        console.log(data2)
+        const { searchedItems } = this.props;
+        searchedItems(data2.hits);
+      });
+    }
+    e.preventDefault();
+    
+  }
 
   // handleSubmit(e) {
   //   e.preventDefault();
-  //   // console.log(e);
   //   console.log("Story search submitted " + this.state.value);
   //   fetch(
   //     `http://hn.algolia.com/api/v1/search_by_date?query=created_at_i>0`
@@ -48,21 +70,22 @@ class SearchForm extends Component {
   //     });
   // }
 
-   handleSubmit(e) {
-    e.preventDefault();
-    // console.log(e);
-    console.log("Story search submitted " + this.state.value);
-    fetch(
-      `http://hn.algolia.com/api/v1/search?query=author_:${this.state.value}`
-    )
-      .then((res) => res.json())
-      .then((data2) => {
-        const { searchedItems } = this.props;
-        searchedItems(data2.hits);
-      });
-  }
+  //  handleSubmit(e) {
+  //   e.preventDefault();
+  //   // console.log(e);
+  //   console.log("Story search submitted " + this.state.value);
+  //   fetch(
+  //     `http://hn.algolia.com/api/v1/search?query=author_:${this.state.value}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data2) => {
+  //       console.log(data2)
+  //       const { searchedItems } = this.props;
+  //       searchedItems(data2.hits);
+  //     });
+  // }
 
-  //if search by query leave props by author blank and vise versa by searching author. 
+  //if search by query leave props by author blank and vise versa by searching author.
 
 
   //make a button that has a function that gets most recent articles. search by most recent or author
@@ -74,6 +97,13 @@ class SearchForm extends Component {
         <form onSubmit={this.handleSubmit} class="searchContainer">
           <input class="inputBar" type="text" onChange={this.handleChange} />
           <input type="submit" value="Submit" />
+          <label>
+            Search by:
+            <select value={this.state.value} onChange={this.handleSelectChange}>
+              <option value="story">Stories</option>
+              <option value="author">Authors</option>
+            </select>
+          </label>
         </form>
       </div>
     );

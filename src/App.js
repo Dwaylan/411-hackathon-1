@@ -23,17 +23,20 @@ class App extends Component {
     fetch("http://hn.algolia.com/api/v1/search?tags=front_page")
     .then((res) => res.json())
     .then((data) => {
-      console.log("this is front page ", data)
       this.setState({ newsItem: data.hits })
     })
   }
 
 
   searchedItems = (items) => {
+    console.log("these are searched items", items)
     this.setState({ newsItem: items });
-    console.log(this.state.newsItem)
+    
   };
-  
+
+  handleClick = () => {
+    
+  }
 
   render() {    
 
@@ -41,6 +44,8 @@ class App extends Component {
       <div className="App">
         <Stylesheet />
         <SearchForm searchedItems={this.searchedItems} />
+        {console.log(this.state.newsItem)}
+        <button>Sort by Date</button>
         <ul>
           {this.state.newsItem &&
             this.state.newsItem.map((item) => {
@@ -49,12 +54,11 @@ class App extends Component {
                   key={item.objectID}
                   points={item.points}
                   commentNum={item.num_comments}
-                  url={item.url}
+                  url={item.url || item.story_url}
                   date={item.created_at}
                   author={item.author}
-                  title={item.title}
+                  title={item.story_title || item.title}
                   time={item.created_at_i}
-                  // author={item.story_title}
                 />
               );
             })}
