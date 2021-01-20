@@ -62,7 +62,7 @@ class SearchForm extends Component {
       });
   }
 
-  //if search by query leave props by author blank and vise versa by searching author.
+  //if search by query leave props by author blank and vise versa by searching author. 
 
 
   //make a button that has a function that gets most recent articles. search by most recent or author
