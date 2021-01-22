@@ -14,7 +14,6 @@ class SearchForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     this.handleSelectChange = this.handleSelectChange.bind(this)
-    
   }
 
  
