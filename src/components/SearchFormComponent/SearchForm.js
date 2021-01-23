@@ -6,34 +6,32 @@ class SearchForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
-      selectValue: 'story',
+      inputValue: '',
+      selectValue: props.value,
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-
-    this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)    
   }
 
  
 
-  //https://reactjs.org/docs/lifting-state-up.html
+ 
    handleChange(e) {
-    this.setState({ value: e.target.value })
+    this.setState({ inputValue: e.target.value })
   }
 
   handleSelectChange(e) {
+    e.preventDefault();
     this.setState({ selectValue: e.target.value })
-    console.log("etargetvalue for select change", e.target.value)
   }
 
   handleSubmit(e) {
-   
+    e.preventDefault();
     if(this.state.selectValue === 'story') {
-      console.log("Story search submitted " + this.state.value);
+    
       fetch(
-        `http://hn.algolia.com/api/v1/search?query=${this.state.value}&tags=story`
+        `http://hn.algolia.com/api/v1/search?query=${this.state.inputValue}&tags=story`
       )
         .then((res) => res.json())
         .then((data2) => {
@@ -41,9 +39,9 @@ class SearchForm extends Component {
           searchedItems(data2.hits);
         });
     } else{
-      console.log("Story search submitted " + this.state.value);
+     
     fetch(
-      `http://hn.algolia.com/api/v1/search?query=author_:${this.state.value}`
+      `http://hn.algolia.com/api/v1/search?query=author_:${this.state.inputValue}`
     )
       .then((res) => res.json())
       .then((data2) => {
@@ -52,44 +50,9 @@ class SearchForm extends Component {
         searchedItems(data2.hits);
       });
     }
-    e.preventDefault();
-    
   }
 
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   console.log("Story search submitted " + this.state.value);
-  //   fetch(
-  //     `http://hn.algolia.com/api/v1/search_by_date?query=created_at_i>0`
-  //         )
-  //     .then((res) => res.json())
-  //     .then((data2) => {
-  //       const { searchedItems } = this.props;
-  //       searchedItems(data2.hits);
-  //     });
-  // }
 
-  //  handleSubmit(e) {
-  //   e.preventDefault();
-  //   // console.log(e);
-  //   console.log("Story search submitted " + this.state.value);
-  //   fetch(
-  //     `http://hn.algolia.com/api/v1/search?query=author_:${this.state.value}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data2) => {
-  //       console.log(data2)
-  //       const { searchedItems } = this.props;
-  //       searchedItems(data2.hits);
-  //     });
-  // }
-
-  //if search by query leave props by author blank and vise versa by searching author.
-
-
-  //make a button that has a function that gets most recent articles. search by most recent or author
-
-  //from here i need to make either multiple search fields or drop down list and tie them in with the main page i will also need a on change function as well as button component and onClick function.
   render() {
     return (
       <div class="formContainer">
@@ -98,7 +61,7 @@ class SearchForm extends Component {
           <input type="submit" value="Submit" />
           <label>
             Search by:
-            <select value={this.state.value} onChange={this.handleSelectChange}>
+            <select value={this.state.selectalue} name={this.props.name} onChange={this.handleSelectChange.bind(this)}>
               <option value="story">Stories</option>
               <option value="author">Authors</option>
             </select>

@@ -13,9 +13,7 @@ class App extends Component {
 
     this.handleClick = this.handleClick.bind(this)
   }
-  // use the below link to test how making multiple fetch requests depending on the search requests.
-  // https://stackoverflow.com/questions/52882903/componentdidmount-multiple-fetch-calls-best-practice
-  // which i have moved to a component of its own.
+ 
   componentDidMount() {
     console.log("mounted");
     this.fetchData();
